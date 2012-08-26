@@ -8,6 +8,7 @@
  * Copyright (C) 2010 Google Inc. All rights reserved.
  *
  * Portions created by Sony Ericsson are Copyright (C) 2011 Sony Ericsson Mobile Communications AB.
+ * Copyright (C) 2012 Sony Mobile Communications AB.
  * All Rights Reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -572,17 +573,32 @@ int RenderImage::computeReplacedLogicalHeight() const
 #endif
 }
 
+/**
+ * A version of RenderBox::computeReplacedLogicalHeight that ignores
+ * a percentage height when there is no specified height on the containing block.
+ */
+int RenderImage::renderBoxComputeReplacedLogicalHeight() const
+{
+    int logicalHeight = isLogicalHeightSpecified() ?
+        RenderBox::computeReplacedLogicalHeightUsing(style()->logicalHeight()) :
+        intrinsicLogicalHeight();
+    int minLogicalHeight =
+        RenderBox::computeReplacedLogicalHeightUsing(style()->logicalMinHeight());
+    int maxLogicalHeight = style()->logicalMaxHeight().isUndefined() ? logicalHeight :
+        RenderBox::computeReplacedLogicalHeightUsing(style()->logicalMaxHeight());
+
+    return max(minLogicalHeight, min(logicalHeight, maxLogicalHeight));
+}
+
 int RenderImage::calcAspectRatioLogicalWidth() const
 {
     int intrinsicWidth = intrinsicLogicalWidth();
     int intrinsicHeight = intrinsicLogicalHeight();
     if (!intrinsicHeight)
         return 0;
-    // [SonyEricsson]: Do not scale if no height is specified.
-    if (!m_imageResource->hasImage() || m_imageResource->errorOccurred() ||
-            !isLogicalHeightSpecified())
+    if (!m_imageResource->hasImage() || m_imageResource->errorOccurred())
         return intrinsicWidth; // Don't bother scaling.
-    return RenderBox::computeReplacedLogicalHeight() * intrinsicWidth / intrinsicHeight;
+    return renderBoxComputeReplacedLogicalHeight() * intrinsicWidth / intrinsicHeight;
 }
 
 int RenderImage::calcAspectRatioLogicalHeight() const

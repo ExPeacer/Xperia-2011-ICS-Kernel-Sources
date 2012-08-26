@@ -1479,7 +1479,9 @@ static int wpa_supplicant_ctrl_iface_select_network(
 		}
 	}
 
-	wpa_supplicant_select_network(wpa_s, ssid);
+	// ignore request for already connected SSID
+	if (ssid && ssid != wpa_s->current_ssid)
+		wpa_supplicant_select_network(wpa_s, ssid);
 
 	return 0;
 }

@@ -617,6 +617,18 @@ static struct wpa_ssid * wpa_scan_res_match(struct wpa_supplicant *wpa_s,
 			continue;
 		}
 
+		/*
+		 * If we lost connection, e.g. due to signal level, do not try
+		 * to auto-reconnect if the signal is week - big chance, we
+		 * will land in a connected-connection_lost loop
+		 */
+		if (wpa_s->reassociated_connection &&
+			wpa_s->conf->reauth_threshold &&
+			(bss->level < wpa_s->conf->reauth_threshold)) {
+			wpa_dbg(wpa_s, MSG_DEBUG, "   skip - signal to low");
+			continue;
+		}
+
 #ifdef CONFIG_P2P
 		/*
 		 * TODO: skip the AP if its P2P IE has Group Formation

@@ -763,6 +763,8 @@ static void wpa_config_write_global(FILE *f, struct wpa_config *config)
 		fprintf(f, "max_num_sta=%u\n", config->max_num_sta);
 	if (config->disassoc_low_ack)
 		fprintf(f, "disassoc_low_ack=%u\n", config->disassoc_low_ack);
+	if (config->reauth_threshold != DEFAULT_REAUTH_THRESHOLD)
+		fprintf(f, "reauth_threshold=%d", config->reauth_threshold);
 }
 
 #endif /* CONFIG_NO_CONFIG_WRITE */

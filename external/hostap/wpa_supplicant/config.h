@@ -28,6 +28,7 @@
 #define DEFAULT_BSS_EXPIRATION_AGE 180
 #define DEFAULT_BSS_EXPIRATION_SCAN_COUNT 2
 #define DEFAULT_MAX_NUM_STA 128
+#define DEFAULT_REAUTH_THRESHOLD 0
 
 #include "config_ssid.h"
 #include "wps/wps.h"
@@ -424,6 +425,11 @@ struct wpa_config {
 	 * disassoc_low_ack - Disassocicate stations with massive packet loss
 	 */
 	int disassoc_low_ack;
+
+	/**
+	 * reauth_threshold - Reauthentication signal threshold.
+	 */
+	int reauth_threshold;
 };
 
 

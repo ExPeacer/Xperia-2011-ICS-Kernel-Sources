@@ -4,6 +4,7 @@
  *           (C) 2006 Allan Sandfeld Jensen (kde@carewolf.com) 
  *           (C) 2006 Samuel Weinig (sam.weinig@gmail.com)
  * Copyright (C) 2004, 2005, 2006, 2007, 2009, 2010, 2011 Apple Inc. All rights reserved.
+ * Copyright (C) 2012 Sony Mobile Communications AB.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -85,6 +86,7 @@ private:
 
     virtual int computeReplacedLogicalWidth(bool includeMaxWidth = true) const;
     virtual int computeReplacedLogicalHeight() const;
+    int renderBoxComputeReplacedLogicalHeight() const;
 
     IntSize imageSizeForError(CachedImage*) const;
     void imageDimensionsChanged(bool imageSizeChanged, const IntRect* = 0);

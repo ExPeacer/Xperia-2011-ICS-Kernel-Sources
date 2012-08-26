@@ -2156,7 +2156,7 @@ void device_bonding_complete(struct btd_device *device, uint8_t status)
 		btd_adapter_retry_authentication(device->adapter, &bdaddr);
 		return;
 	} else if (status) {
-		if (status == 0x05 || status == 0x06 || status == 0x0e ||
+		if (status == 0x06 || status == 0x0e ||
                 status == 0x17 || status == 0x18) {
 			device_remove_bonding(device);
 			device_set_paired(device, FALSE);

@@ -1,6 +1,7 @@
 /*
  * Copyright 2011, The Android Open Source Project
- *
+ * Copyright (C) 2012 Sony Mobile Communications AB.
+
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -82,7 +83,7 @@ void TreeManager::swap()
     if (m_drawingTree) {
         XLOG("destroying drawing tree %p", m_drawingTree);
         m_drawingTree->setIsDrawing(false);
-        SkSafeUnref(m_drawingTree);
+        m_drawingTree->runUnRefOnMainThread();
     }
 
     // painting tree becomes the drawing tree

@@ -1,6 +1,7 @@
 /*
  * Copyright 2007, The Android Open Source Project
  * Portions created by Sony Ericsson are Copyright (C) 2011 Sony Ericsson Mobile Communications AB.
+ * Copyright (C) 2012 Sony Mobile Communications AB.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -233,7 +234,9 @@ WebView(JNIEnv* env, jobject javaWebView, int viewImpl, WTF::String drawableDir,
 #endif
     delete m_frameCacheUI;
     SkSafeUnref(m_navPictureUI);
-    SkSafeUnref(m_baseLayer);
+    if (m_baseLayer) {
+        m_baseLayer->runUnRefOnMainThread();
+    }
     delete m_glDrawFunctor;
     delete m_buttonSkin;
 }
@@ -1475,7 +1478,9 @@ void setBaseLayer(BaseLayerAndroid* layer, SkRegion& inval, bool showVisualIndic
         copyScrollPositionRecursive(compositeRoot(), newCompositeRoot);
     }
 #endif
-    SkSafeUnref(m_baseLayer);
+    if (m_baseLayer) {
+        m_baseLayer->runUnRefOnMainThread();
+    }
     m_baseLayer = layer;
     CachedRoot* root = getFrameCache(DontAllowNewer);
     if (!root)

@@ -276,6 +276,8 @@ static int wpa_config_read_global(struct wpa_config *config, HKEY hk)
 				  (int *) &config->max_num_sta);
 	wpa_config_read_reg_dword(hk, TEXT("disassoc_low_ack"),
 				  (int *) &config->disassoc_low_ack);
+	wpa_config_read_reg_dword(hk, TEXT("reauth_threshold"),
+				  (int *) &config->reauth_threshold);
 
 	return errors ? -1 : 0;
 }
@@ -623,6 +625,8 @@ static int wpa_config_write_global(struct wpa_config *config, HKEY hk)
 				   config->max_num_sta, DEFAULT_MAX_NUM_STA);
 	wpa_config_write_reg_dword(hk, TEXT("disassoc_low_ack"),
 				   config->disassoc_low_ack, 0);
+	wpa_config_write_reg_dword(hk, TEXT("reauth_threshold"),
+				   config->reauth_threshold, DEFAULT_REAUTH_THRESHOLD);
 
 	return 0;
 }
